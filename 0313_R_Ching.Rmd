@@ -64,7 +64,26 @@ a2 <- 5L
 ```{r}
 class(a2)
 ```
+#Vector
+aVector裡面是5,6,7的值，並且是numeric的型態
+a2Vector裡面的值是5L,6L,7L，是三維空間，內容是5,6,7三個整數
+aVector由於是numeric，所以所需的記憶體空間筆記多
+※註：當然你也可以不要取名叫做aVector啦，你可以取名為y哈哈哈哈(看第85行，他一樣有記住)，只要右側值那邊指派的是c(值,值,值)這樣Rstudio就會知道他是vector了
+```{r}
+aVector <- c(5,6,7)
+a2Vector <- c(5L,6L,7L)
+```
 
+```{r}
+class(aVector)
+```
+```{r}
+class(a2Vector)
+```
+
+```{r}
+y <- c(7,8,9)
+```
 
 ## R Markdown
 
