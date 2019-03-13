@@ -10,29 +10,35 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-
+d <- 10
 ```
 
-```{r cars}
-summary(cars)
-```
 
-```{r pressure,echo=False}
-plot(pressure)
-```
 ```{r}
 a <- 2
 2 -> b
 ```
 
+> 我是blockquote  
+# 我是超大杓{#achor}  
+*我是斜體*.  
+空格  .  
+~~我是槓槓~~.  
+
+
+
+
 ```{r}
 65 + b
 ```
-```{r}
-65 + c
-```
+
+
 ```{r}
 c<-65+b
+```
+
+```{r}
+65 + c
 ```
 
 ```{r}
