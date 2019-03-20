@@ -11,9 +11,38 @@ knitr::opts_chunk$set(echo = TRUE)
 #詮釋你的時間，變成電腦也可以懂得utc的時間
 他的規則
 ymd指的是年月日，hms指的是小時分鐘、秒數
+
+```{r}
+library(lubridate)
+```
+
 ```{r}
 dtObject <- ymd_hms("1970-01-01 00:02:53")
 ```
 
-
+```{r}
+dtObject2 <- c(ymd_hms("1970-01-01 00:02:53","1980-01-01 00:02:53"))
+```
+#利用class去確認電腦有沒有懂他不是integer
+posixct是跨作業系統的一致性協定
+posixct有一個是定義月曆怎麼看
+代表R有成功的把他記成秒數來看待/儲存
+也代表示是utc的意思(檢察署性)
+```{r}
+class(dtObject)
+```
+#看看他怎麼print出來給我們看
+若沒有更改設定，電腦會想像你是在精度0度的位置(所以特別顯示uytc，
+```{r}
+dtObject2
+```
+#利用typeof可以看到電腦是怎麼儲存的，
+代表電腦是用非整數在看的
+```{r}
+typeof(dtObject2)
+```
+#告訴電腦說要用double儲存(用意何在?))
+```{r}
+double_time <- as.double(dtObject2)
+```
 
