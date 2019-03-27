@@ -1,0 +1,124 @@
+---
+title: '0327'
+author: "Ching Hsieh"
+date: "2019年3月27日"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#先在Packages那邊匯入lubridate這個套件
+#產生一個Datetime物件
+再在此處叫出(???)lubridate這個套件做使用(library???)
+產生一個叫做"dtObject"的Datetime物件，其值為"1970-01-01 00:02:53"
+```{r}
+library(lubridate)
+dtObject<-ymd_hms("1970-01-02 00:02:53") 
+```
+
+
+#產生一個DateTime物件向量：使用c(...)形成向量
+```{r}
+dtObjectVector<-ymd_hms(
+  c("1970-01-01 00:02:53",
+    "1980-02-11 11:25:22")
+)
+```
+
+#查詢dtObject的class，確認電腦儲存他/看待他的格式
+[1] "POSIXct" "POSIXt" 
+```{r}
+class(dtObject)
+```
+
+
+#告訴我dtObject的值為何?
+[1] "1970-01-01 00:02:53 UTC"
+```{r}
+dtObject
+```
+
+#顯示目前電腦時區設定
+```{r}
+Sys.timezone()
+```
+
+
+#產生一個叫做"twDateTime"的Datetime物件
+指定其值為ymd_hms(這個library(套件)????)，值為2019-03-18 14:04:04:00,時區(timezone)為Asia/Taipei(亞洲區/台北)
+#轉成Europe/Lisbon(改成歐洲區，里斯本)，並儲存在LisbonDateTime
+```{r}
+twDateTime <- ymd_hms("2019-03-19 14:04:00", tz="Asia/Taipei")
+LisbonDateTime <- with_tz(twDateTime,tzone="Europe/Lisbon")
+LisbonDateTime
+```
+
+
+#電腦儲存的都是1552889040的值
+```{r}
+typeof(twDateTime)
+as.double(twDateTime)
+as.double(LisbonDateTime)
+```
+
+#EDT是什麼??
+[1] "2019-03-27 03:26:00 EDT"
+```{r}
+twdt<-ymd_hms("2019-03-27 15:26:00", tz="Asia/Taipei")
+nydt<-with_tz(twdt,tzone = "America/New_York")
+nydt
+```
+
+
+#記得寫時區去儲存
+```{r}
+TWDT <- dmy_h("27-03-2019 15",tz="Asia/Taipei")
+TWDT
+```
+
+```{r}
+test <- ymd("2018-09-11",tz="Europe/Lisbon")
+test
+```
+
+```{r}
+test2 <- mdy("March 3, 2019",tz="Europe/Lisbon")
+TW_test2 <- with_tz(test2,tzone="Asia/Taipei")
+test2
+as.double(test2)
+as.double(TW_test2)
+
+```
+
+#????????
+```{r}
+as.integer("test2")
+```
+
+```{r}
+a <- c(1, 5, -3)
+b <- c(0.5, 12, 2)
+```
+
