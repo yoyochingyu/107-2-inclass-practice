@@ -120,5 +120,50 @@ as.integer("test2")
 ```{r}
 a <- c(1, 5, -3)
 b <- c(0.5, 12, 2)
+c <- a*b
+c
 ```
 
+
+#整數+整數->integer
+若沒有特別指定為整數，小數+整數->numeric
+```{r}
+aL <- c(1L, 5L, -3L)
+bL <- c(-2L, -4L, 8L)
+d <- aL*bL
+class(d)
+```
+
+#加減運算
+長度若不一樣，他會預設每個都要+4
+長度符合，就會各自相加
+```{r}
+a
+a+4
+a + c(4,3,2)
+```
+
+
+#DateTime+1->加一秒
+```{r}
+twDateTime <- ymd_hms("2019-03-18 14:04:00", tz="Asia/Taipei")
+twDateTime+1
+```
+
+#練習題
+```{r}
+time1 <- ymd_hms("2019-08-11 14:02:34",tz="Asia/Taipei")
+time2 <- ymd_hms("2000-02-01 14:20:28",tz="Asia/Taipei")
+time1-time2
+as.integer(time1-time2)
+```
+
+#確認閏年的概念(period)的概念
+```{r}
+time1 + years(1)
+```
+
+#完整經過一年365天，要用duration
+```{r}
+time1 + dyears(1)
+```
