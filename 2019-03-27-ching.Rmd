@@ -167,3 +167,28 @@ time1 + years(1)
 ```{r}
 time1 + dyears(1)
 ```
+
+```{r}
+twDateTime <- ymd_hms("2019-03-18 14:04:00", tz="Asia/Taipei")
+twDateTime +1
+twDateTime +15972
+twDateTime2 <- ymd_hms("2019-03-18 18:30:12", tz="Asia/Taipei")
+
+twDateTime2 - twDateTime
+class(twDateTime2 - twDateTime)
+as.integer(twDateTime2 - twDateTime)
+as.numeric(twDateTime2 - twDateTime)
+as.difftime(twDateTime2 - twDateTime)
+```
+
+#一個等號是箭頭往左指的意思
+```{r}
+x <- 5
+y <- 7
+x2 <- c(1,5)
+y2 <- c(-1,5,20)
+x>5
+x2>y2
+```
+
+
