@@ -208,9 +208,11 @@ y5=="女"
 [1]TTF
 [2]TFT
 [3]TFF
+
 ```{r}
 x5 %in% greatTaipei
 y5 == "女"
+which(y5=="女")
 (x5 %in% greatTaipei) & (y5=="女") # 同時（&）來自於greatTaipei 又是 女 性。
 ```
 
@@ -259,10 +261,36 @@ date <- as.character(exData2$期間)
 currency <- exData2$幣別
 exchangeRate <- exData2$匯率
 ```
+#複習datetime
+```{r}
+library(lubridate)
+dtObject<-ymd_hms("1970-01-01 00:02:53") 
+class(dtObject)
+```
+
+
 
 請把date的class存成date class
 ```{r}
 class(date)
+head(date)
+```
+#必須先引入lubridate
+利用ymd變成"DATE"的格式
+```{r}
+library(lubridate)
+date <- ymd(date)
+class(date)
+```
+
+#1980-08-01之後有幾筆
+#test-wrong沒有這種做法!!!
+```{r}
+c5 <- ymd("1980-10-02")
+c6 <- ymd("1980-10-03")
+c7 <- ymd("1980-10-04")
+compare <- c(c5,c6)
+length(compare>c7)
 ```
 
 ```{r}
@@ -279,13 +307,13 @@ class(date)
 ```
 
 1980-08-01之後的資料有多少筆。
-
+#直接建構成邏輯判斷
 ```{r}
 isAfter19800801 <-
   date >= ymd("1980-08-01")
 isAfter19800801
 ```
-
+#和1970-0101相比
 
 ```{r}
 head(as.integer(date))
@@ -343,7 +371,7 @@ isNotNA <- !is.na(exchangeRate)
 isEuro <- currency == "歐元USD/EUR"
 ```
 
-
+#利用SUM來計算 
 ```{r}
 satisfyBoth <- isNotNA & isEuro
 sum(satisfyBoth)
@@ -395,25 +423,22 @@ sum(
 經濟學系學生且必修課程中，成經不及格佔多少比例
 1. 經濟學系學生且必修課程有多少筆
 ```{r}
-sum(
+denominator <- sum(
   major == "經濟學系" &
     courseType == "必"
-) -> 分母
-分母
+) 
+denominator
 ```
 
 2. 其中成績不及格佔多少比例
 ```{r}
-sum(
-  major == "經濟學系" &
-    courseType == "必" &
-    grade < 60
-) -> 分子
-分子
+numerator <- sum(
+  major == "經濟學系" & courseType == "必" &grade < 60)
+numerator
 ```
 
 ```{r}
-分子/分母
+numerator/denominator
 ```
 
 
