@@ -78,72 +78,154 @@ admin_yr <- str_sub(studentID,start = 2, end = -6)
 admin_yr
 ```
 
-
-
-
-
-```{r}
-studentID<-c(
-  '410177115','410176080','410174233','410177011','410182045','410176014')
-studentID
-major<- str_sub(studentID,5,6) # 學系號
-major
-```
-
-```{r}
-studentID
-入學年<-str_sub(studentID,2,4)
-入學年
-```
-
-# join
+# join合併
+函數str_c(c是concatenate接起來合併的意思)
 
 str_c
+向量可以不等"長"沒有關係
+
+
 ```{r}
 month <- c("3","4","2")
+char1 <- c("月","月","月") #有個字串向量叫做char1裡面放"月月月"三個string
 day <- c("11","5","7")
-char1 <- c("月","月","月")
 char2 <- c("日","日","日")
 month
 char1
 day 
 char2
 str_c(month,char1,day,char2)
+#每個向量的第一個合起來，變成新字串向量的第一個值，每個向量的第二個合起來，變成新字串向量的第二個值
+#按照順序，一個一個接起來
 ```
 
+
+str_c若遇到像量只有一個元素，會假設每個元素都是串一樣的，
+month和day裡面有三個元素，月和日(長度不夠)但會跟著重複三次
 ```{r}
 str_c(month,c("月"),day,c("日"))
-```
-
-```{r}
 str_c(month,"月",day,"日")
+#兩者都可以
+#若銜接的長一模一樣，可以直接地把字串打上去就好)
 ```
 
-
+#這兩個字串向量在相連之間，加一個"-"
+(seperation分隔符號)
 ```{r}
 month
 day
 str_c(month,day, sep="-")
+
+
 ```
 
+
+#test-3(訂單編號)
+```{r}
+drink <- c("抹茶拿鐵","珍珠紅茶拿鐵","大甲芋頭鮮奶")
+amount <- c(5,8,13)
+str3 <- c(" 訂", " 訂", " 訂")
+str4<- c("杯","杯","杯")
+order <- str_c(drink,str3,amount,str4)
+order
+order2 <- str_c(drink," 訂",amount,"杯")
+order2
+order3<- str_c(drink,c(" 訂"),amount,c("杯"))
+order3
+order4<- str_c(drink,amount,sep = "*")
+order4
+```
+
+#str_split()
+→←相對於剛剛str_c(是join)的部分
+把一串文字，用那個符號去決定怎麼分割
+string split切割
 ```{r}
 dates <- c("3-11", "4-5",  "2-7")
-dates
+#把"...."這三個字串結成字串向量，儲存在名為dates的變數裡面
 str_split(dates,"-")
+#遇到"-"代表可以切開
 ```
 
 str_replace
+#str_replace(要處理的字串向量,"要取代的","取代成什麼")
 ```{r}
-dates
-str_replace(dates,"-","月")
+dates <- c("3-11", "4-5", "2-7")
+dates2 <- str_replace(dates,"-","月")
+dates2
+```
+```{r}
+library(stringr)
 ```
 
+#str_replace()
+如果沒有all只會把處理第一個遇到的取代
+#str_replace_all()
+有ALL會把每個遇到的狀況都做取代
 ```{r}
 dates2 <- c("3-11-2019", "4-5-2017",  "2-7-2015")
 dates2
 str_replace(dates2,"-","/")
 str_replace_all(dates2,"-","/")
 ```
+
+```{r}
+library(readr)
+githubData <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/githubData.csv")
+username <- githubData$`GitHub username`[11:16]
+reponame <- githubData$`GitHub repo name`[11:16]
+```
+
+#ex1
+```{r}
+#raw_web <- c("https://github.com/")
+#githubrepo <- str_c(raw_web,username,"/", reponame)
+#也可以
+raw_web2 <- c("https://github.com")
+githubrepo2 <- str_c(raw_web2,username,reponame,sep = "/")
+head(githubrepo2)
+```
+
+#ex2
+```{r}
+library(readr)
+filmVotingData <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/%E7%AC%AC%E4%B8%89%E5%B1%86%E7%B6%93%E6%BF%9F%E6%92%AD%E5%AE%A2%E7%AB%B6%E8%B3%BD%E5%8F%83%E8%B3%BD%E4%BD%9C%E5%93%81%E6%8A%95%E7%A5%A8%E7%B5%90%E6%9E%9C%E6%A8%A3%E6%9C%AC%20-%20Sheet1.csv")
+birthday<-filmVotingData$`出生西元年月日（驗證本人用）`
+```
+
+```{r}
+head(birthday)
+year1 <- str_sub(birthday, start = 1, end = 4)
+month1 <- str_sub(birthday, start = 5, end = 6)
+day1 <- str_sub(birthday, start = -2, end = -1)
+birthday <- str_c("西元", year1,"年",month1,"月",day1,"日")
+head(birthday)
+```
+
+#ex3
+```{r}
+library(lubridate)
+lunar<-c("099/01","099/02","099/03")
+lunar
+year2 <- str_sub(lunar,start = 1,end = 3)
+year2<- as.integer(year2)+c(1911)
+month2 <- str_sub(lunar,start = -2,end = -1)
+new_lunar <- str_c(year2,"-",month2,"-1")
+new_lunar
+new_lunar <- ymd(new_lunar)
+typeof(new_lunar)
+
+
+```
+
+
+
+
+
+
+
+
+
 
 ```{r}
 library(readr)
@@ -233,7 +315,40 @@ b
 西元年月
 ```
 
+
+
+
+
+
+
 # Vectors
+1:3->1直到3
+5:10->5ˋ直到10
+資料型態是integer
+```{r}
+a<-c(1:3)
+#用冒號產生，會是+1+1+1，系統會辨識他為整數
+#也可以寫
+#a <- 1:3
+#a <- c(1,2,3)
+typeof(a)
+a
+```
+
+為每一個元素命名
+※只有逗號相隔的會是元素
+```{r}
+a_with_name <- c(第一個變數=1,第二個變數=2,第三個變數=3)
+typeof(a_with_name)
+a_with_name
+#取名，第一個叫做a1,a2,a3
+```
+
+
+
+
+
+
 
 ```{r}
 a<-c(1:3) # a <- c(1,2,3)
@@ -251,12 +366,23 @@ typeof(aWithNames)
 aWithNames
 ```
 
-List
+#List(很廣義)(什麼資料型態都可以丟)
+第一個元素是字串，值為a
+第二個元素是字串，值為b
+第三個元素本身是個向量，裡面儲存1-10(int)
 ```{r}
 b1<-list("a","b",c(1:10), TRUE)
 typeof(b1)
 b1
 ```
+
+```{r}
+b2<-list(first="a",second="b",third=c(1:10), forth=TRUE)
+b2
+```
+
+
+
 
 ```{r}
 b2<-list(
