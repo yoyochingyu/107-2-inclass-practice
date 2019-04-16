@@ -4,35 +4,84 @@ author: "林茂廷"
 date: "4/10/2019"
 output: html_document
 ---
-
+5.5Operation on string(字串的操作)
+字串比較常見的操作->subset,join,split
+資料裡面有很多個課程，只挑出帶有經濟學這三個字眼的課程
+#Subset->挑出一部分的字串內容
+#Join->字串去做Join(合併)的動作，並且合併加上分隔號、符號等
+將兩個字串向量、合併成一個字串向量
+#Split剛好跟join相反，進來的資料本來就是悅+日，但想拆成悅、日兩個分開的字串向量
+#Subset->選出裡面符合某種規律的向量
+字串的操作->Stringr package(跟文字有關的套既)
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-引入套件
+#先引入(library)該套件(stringr)
 ```{r}
 library(stringr)
 ```
 
 no package
+也可以在這邊用下指令的方式引進該package->globalenvironment(下拉)看有沒有正確引入
+※可以到右側environment的panel
+  ※像是base基本上會自動仔入(包含sum.length等fuction)
 ```{r}
 install.packages("stringr")
 ```
 
-subset
+#subset
+我要一個向量(c)裡面放的是"balbalblalba"這幾個字串，將這個字串向量命名為course，用逗號相連
 ```{r}
 course <- c("個體經濟學","投資學","總體經濟學")
-course
-str_subset(course,"經濟學")
+course #看看course裡面放什麼
+str_subset(course,"經濟學") #subset挑出course裡面有出現經濟學這個規律的
 ```
-
+#detect()
+另一個函數叫做detect
+給他string和pattern
+detect是給你true/false，tellsyou有沒有符合規律
 ```{r}
 course
 str_detect(course,"經濟學")
 ```
 
+#test-1
+```{r}
+tea <- c("紅茶","奶茶","咖啡","綠茶")
+tea
+tea <- str_subset(tea,"茶")
+tea
+```
+
+#test-2
+```{r}
+tea <- c("紅茶","奶茶","咖啡","綠茶")
+tea
+tea <- str_detect(tea,"茶")
+tea
+```
+
+
 
 str_sub
+#每個元素都要取出中間的某一塊
+有一群學生的學號，我想要取出學生的系別，4101代表入學年，73是經濟系
+
+```{r}
+studentID<-c(
+  '410177115','410176080','410174233','410177011','410182045','410176014')
+studentID
+major <- str_sub(studentID,start = 5L, end = 6L )
+major
+admin_yr <- str_sub(studentID,start = 2, end = -6)
+admin_yr
+```
+
+
+
+
+
 ```{r}
 studentID<-c(
   '410177115','410176080','410174233','410177011','410182045','410176014')
