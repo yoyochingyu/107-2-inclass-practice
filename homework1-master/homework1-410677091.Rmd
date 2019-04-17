@@ -140,13 +140,15 @@ fail <- grade<60
 #sum(fail)
 #vector("numeric", 7455)
 #sum(grade<60 & credit==0)
-credit[fail] <- 0
+credit2<- credit
+credit2[fail] <- 0
 #sum(credit==0)
-earnedCredit <- as.integer(credit)
+earnedCredit <- as.integer(credit2)
 #sum(earnedCredit==0)
 #typeof(earnedCredit)
 earnedCredit
 ```
+
 
 
 ### 3.2
@@ -167,6 +169,8 @@ credit100ChosenStudent <- sum(k2)
 #credit100ChosenStudent<- sum(credit[18225:18245])
 credit100ChosenStudent
 ```
+
+
 
 ### 3.3
 請問學號為046S6f645的學生在100學年實得了多少學分？答案請存在物件earnedCredit100ChosenStudent。
@@ -190,6 +194,9 @@ earnedCredit100ChosenStudent <- sum(k3)
 earnedCredit100ChosenStudent
 ```
 
+
+
+
 ### 3.4
 請問學號為046S6f645的學生在100學年的學年平均成績為多少？（存在答案物件gpa100ChosenStudent）(即為該生該學年所有**學分數大於0**的各科學期成績**分別乘上各科學分數**加總後，除以其該學年總學分數) (hint: 建議先創一個可以代表元素是否來自**該學號**，且**100學年**，且**學分數>0**的logical class物件，用它來選出所要的成績或學分進行必要相乘或加總)
 ```{r ans34}
@@ -202,5 +209,7 @@ logy <- studentID=="046S6f645" & schoolYear==100 & credit>0
 gpa100ChosenStudent <- sum(grade[logy]*credit[logy])/sum(credit[logy])
 gpa100ChosenStudent
 ```
+
+
 
 > 答案後，請確認每個code chunk的最後一行皆為該題的答案物件。

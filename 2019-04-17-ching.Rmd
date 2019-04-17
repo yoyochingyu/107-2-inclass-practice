@@ -112,6 +112,12 @@ test2 <- plasticContainer[c(1)]
 
 #test2[[1]][[1]]
 ```
+#6.4.3 $. extraction
+只能用在list，只能取一個元素，.一定是元素名稱
+```{r}
+plasticContainer$greenBox
+plasticContainer[["greenBox"]]
+```
 
 
 
@@ -136,5 +142,31 @@ typeof(成績單)
   總經=77,
   統計=88)
 成績單[c(FALSE,TRUE,TRUE)]
+```
+
+
+#6.4.6
+data本身是一個list，如果我已經確定要拿出蛇算
+```{r}
+library(readr)
+filmVotingData <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/podcastcompetition3.csv")
+str_replace(filmVotingData$請選擇你最喜歡的影片二部,", by"," by") -> favoriteTwo
+birthday <- filmVotingData$`出生西元年月日（驗證本人用）`
+timeStamp <- filmVotingData$Timestamp
+```
+
+```{r}
+library(stringr)
+str_split(favoriteTwo,", ") -> favoriteTwoList # 將選擇的兩片split成兩個元素
+unlist(favoriteTwoList) -> allVotes # 將list堆疊成atomic vector
+typeof(allVotes)
+table(allVotes) # 計算每個類別的次數
+```
+
+```{r}
+logiCorrect <- str_length(birthday)==8
+allVotes[logiWrong]=0
+allVotes
+
 ```
 
