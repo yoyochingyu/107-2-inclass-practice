@@ -1,0 +1,140 @@
+---
+title: '2019-04-17'
+author: "林茂廷"
+date: "4/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library(stringr)
+library(lubridate)
+```
+
+```{r}
+b1<-list("a","b",c(1:10))
+typeof(b1)
+```
+
+```{r}
+b2<-list(
+first="a",
+#第一個元素叫做first，值是"a"
+#第二個元素叫做second，值是"b"
+#第三個元素叫做third，值是一個字串向量
+  second="b",
+  third=c(1:10))
+b2
+```
+
+#test1
+#list的用法
+list_name <- list("a","b",True,c(1:10),5,6.6)
+list裡面的東西以逗號相隔，元素可以命名=?
+```{r}
+list_example <- list("a","b",TRUE,c(1:10),5,6.6,list(90,90,100))
+list_example2 <- list(第一個="a",第二個="b",第三個=TRUE,c(1:10),5,6.6,第七個=list(學生一=90,學生二=90,100))
+list_example2
+#list_example
+```
+
+```{r}
+studentRecord <-
+  list(
+    學號="410073058",
+    姓名="王小明",
+    性別="男",
+    學年平均成績=list(
+      一年級=88,
+      二年級=90.3,
+      三年級=92,
+      四年級=95
+    )
+  )
+
+#studentRecord
+studentRecord[["學年平均成績"]][[3]]
+```
+
+```{r}
+studentRecord[[2]]
+studentRecord[[4]][[3]]
+```
+
+
+#object extraction
+```{r}
+plasticContainer <- list(
+  greenBox=c("paper","scissor"),     # location 1
+  redBox=c(1,3,2.5),               # location 2
+  blueBox=c(TRUE,FALSE,TRUE,TRUE)    # location 3
+)
+plasticContainer
+```
+
+
+#利用[[.]]取出list里其中一「個」元素
+.的位置放該"元素名稱"或位置(元素名稱要"")
+[["學年平均成績""]][[3]]<- 學年平均成績裡面第三個元素
+```{r}
+plasticContainer[["greenBox"]] 
+plasticContainer[[1]]
+plasticContainer[[1]][[1]]
+#也可以
+plasticContainer[["greenBox"]][[1]]
+```
+
+
+#[c("元素名稱1","元素名稱2")]取出一群(>1個)元素)
+這樣取出會是以list的方式取出(建立一個新的list))
+```{r}
+#plasticContainer[c("greenBox","redBox")] 
+#plasticContainer[c(1,2)]
+plasticContainer[c(2,3)]
+test2 <- plasticContainer[c("redBox","blueBox")]
+typeof(test2)
+```
+
+#[[]]和[]的差別
+```{r}
+typeof(plasticContainer[["greenBox"]])
+#[[]]以character的方式取出
+typeof(plasticContainer[c("greenBox")])
+#[以list的方式取出]
+plasticContainer[c(1,2)]
+#取出paper
+plasticContainer[["greenBox"]][[1]]
+test2 <- plasticContainer[c(1)]
+
+#test2[[1]][[1]]
+```
+
+
+
+```{r}
+成績單 <- c(
+  個經=90,
+  總經=77,
+  統計=88,
+  各科成績=c(90,77,88)
+)
+typeof(成績單)
+成績單[[1]]
+成績單[["個經"]]
+成績單[[4]][[1]]
+
+```
+
+#另一個[.] extraction可以接受的是使用logical vector來對應「個別」元素要（TRUE）/不要（FALSE）取出來；由於是對應「個別」元素，所以logical vector長度要和物件內元素個數一樣。
+```{r}
+成績單<- c(
+  個經=90,
+  總經=77,
+  統計=88)
+成績單[c(FALSE,TRUE,TRUE)]
+```
+
