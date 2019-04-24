@@ -59,6 +59,10 @@ class(StuDF)
 typeof(StuDF)
 ```
 
+#取出胖虎
+```{r}
+StuDF[[2]][3]
+```
 
 
 

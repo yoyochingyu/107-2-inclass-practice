@@ -42,6 +42,8 @@ list_example2
 #list_example
 ```
 
+
+#取出list的值
 ```{r}
 studentRecord <-
   list(
@@ -59,7 +61,7 @@ studentRecord <-
 #studentRecord
 studentRecord[["學年平均成績"]][[3]]
 ```
-
+#取出list的值
 ```{r}
 studentRecord[[2]]
 studentRecord[[4]][[3]]
@@ -92,8 +94,8 @@ plasticContainer[["greenBox"]][[1]]
 #[c("元素名稱1","元素名稱2")]取出一群(>1個)元素)
 這樣取出會是以list的方式取出(建立一個新的list))
 ```{r}
-#plasticContainer[c("greenBox","redBox")] 
-#plasticContainer[c(1,2)]
+plasticContainer[c("greenBox","redBox")] 
+plasticContainer[c(1,2)]
 plasticContainer[c(2,3)]
 test2 <- plasticContainer[c("redBox","blueBox")]
 typeof(test2)
@@ -101,16 +103,16 @@ typeof(test2)
 
 #[[]]和[]的差別
 ```{r}
-typeof(plasticContainer[["greenBox"]])
+#typeof(plasticContainer[["greenBox"]])
 #[[]]以character的方式取出
-typeof(plasticContainer[c("greenBox")])
+#typeof(plasticContainer[c("greenBox")])
 #[以list的方式取出]
-plasticContainer[c(1,2)]
+#plasticContainer[c(1,2)]
 #取出paper
-plasticContainer[["greenBox"]][[1]]
+#plasticContainer[["greenBox"]][[1]]
 test2 <- plasticContainer[c(1)]
-
-#test2[[1]][[1]]
+test2
+test2[[1]][[1]]
 ```
 #6.4.3 $. extraction
 只能用在list，只能取一個元素，.一定是元素名稱
