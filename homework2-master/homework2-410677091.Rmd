@@ -120,18 +120,31 @@ commitCheck <- fromJSON(commitCheck, simplifyVector = F)
 ### 2.1
 請取出commitCheck第8個元素底下的**commit**元素，再拿出它底下的**committer**元素，再拿出它底下的**date**元素的第一個值，存成commit8Date答案物件（為character class) 。（最後一行最忘了打答案物件）
 ```{r ans21}
-commitCheck
+commit8Date<- commitCheck[[8]][["commit"]][["committer"]][["date"]][1]
+#typeof(commit8Date)
+commit8Date
 ```
 
 
 ### 2.2
 commit8Date的日期時間為UTC時間，請將它轉成台灣時間的date time class並存在答案物件commit8TWDate。（最後一行最忘了打答案物件）
 ```{r ans22}
+library(lubridate)
+commit8TWDate <- ymd_hms(commit8Date, tz="Asia/Taipei")
+commit8TWDate
 ```
 
 ### 2.3
 原本commitCheck裡的元素沒有命名（`names(commitCheck)`會顯示NULL），請將這些元素依其位置順序命名為"commit1","commit2", "commit3"等等。此題最後一行請輸入commitCheck，老師改題時會看commitCheck的names有沒有正確更改。）(hint: `c(1:5)`可創出c(1,2,3,4,5); `length(commitCheck)`會給你commitCheck元素個數)
 ```{r ans23}
+library(stringr)
+length(commitCheck)
+num <- c(1:30)
+nameofcommitcheck <- str_c("commit",num)
+#nameofcommitcheck
+names(commitCheck) <- nameofcommitcheck
+#names(commitCheck)
+commitCheck
 ```
 
 ### 2.4
@@ -143,6 +156,10 @@ map(commitCheck,~.[[3]][[2]][[3]][[1]]) -> allCommitDatesList
 
 allCommitDatesList是個list，請使用`unlist()`函數將它轉成一個atomic vector其class為character，並存在allCommitDates答案物件。（最後一行最忘了打答案物件）
 ```{r ans24}
+allCommitDates <- unlist(allCommitDatesList)
+#typeof(allCommitDates)
+#class(allCommitDates)
+allCommitDates
 ```
 
 ### 2.5 
