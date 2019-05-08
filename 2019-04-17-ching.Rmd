@@ -110,7 +110,7 @@ typeof(test2)
 #plasticContainer[c(1,2)]
 #取出paper
 #plasticContainer[["greenBox"]][[1]]
-test2 <- plasticContainer[c(1)]
+test2 <- plasticContainer[c(1)][[1]]
 test2
 test2[[1]][[1]]
 ```

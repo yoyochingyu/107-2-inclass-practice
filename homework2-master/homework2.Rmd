@@ -160,18 +160,28 @@ transcriptData的class是data frame（用`class(transcriptData)`可得知），�
 ### 3.1
 請查詢transcriptData元素名稱，並將它們存在名為variableNames的character vector答案物件裡。（最後一行最忘了打答案物件）
 ```{r ans31}
+names(transcriptData) -> variableNames
+variableNames
 ```
 
 ### 3.2
 variableNames裡每個值是這資料有的欄位名稱，我們常稱之為**變數名稱**。請創造一個logic vector名為logicFromEcon的答案物件，其各別元素值為TRUE當「學系」變數裡的對應元素值為"經濟學系"。（最後一行最忘了打答案物件）
 
 ```{r ans32}
+logicFromEcon <-
+  transcriptData$學系 == "經濟學系"
+
+logicFromEcon
 ```
 
 ### 3.3
 請由transcriptData中選出"學號","學分數","必選修類別（必∕選∕通）"變數（使用`[.]` extraction）並存成transcriptPartialData答案物件。（最後一行最忘了打答案物件）
 
 ```{r ans33}
+transcriptPartialData <-
+  transcriptData[c("學號","學分數","必選修類別（必∕選∕通）")] 
+
+transcriptPartialData
 ```
 
 ### 3.4
@@ -180,6 +190,13 @@ variableNames裡每個值是這資料有的欄位名稱，我們常稱之為**�
 > 這題會使用到name=value將賦予元素名稱，若name有特別字元時，我們可換成"name"=value的形式書寫，如： x <- list(z=c(1,2),"this is special"=c(T,F,T,T,F))
 
 ```{r ans34}
+transcriptPartialDataEcon <- list(
+  學號=transcriptPartialData$學號[logicFromEcon],
+  學分數=transcriptPartialData$學分數[logicFromEcon],
+  "必選修類別（必∕選∕通）"=transcriptPartialData$`必選修類別（必∕選∕通）`[logicFromEcon]
+)
+
+transcriptPartialDataEcon
 ```
 
 

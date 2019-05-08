@@ -8,23 +8,48 @@ output: html_document
 Matrix只是vector的一種新的排列形式，雖然它的class自成一格為matrix，但它的type依然會是它架構根源的atomic vector形式。
 ※只是賦予它新的class，視覺上看起來像矩陣，但R還是用vector去看他(vector是R語言的基本儲存單位))
 ```{r}
-Mat1 <- matrix(c(1:6), 2,3)
+Mat1 <- matrix(c(1:6),2,3)
+#使用matrix這個函數
+#OOOO <- matrix(c(1:6),2,3)
 #利用2*3的方式去儲存
+#先縱再橫
 #縱*橫
 Mat1
+Mat1[[2]]
+Mat1[[6]]
 ```
-
+#Matrix
+Matrix只是vector的一種新的排列形式，雖然它的class自成一格為matrix，但它的type依然會是它架構根源的atomic vector形式。
+Matrix只能針對Atomic vector去產生方形資料的幻覺，list若要產生方形視覺，必須透過data frame
 ```{r}
 class(Mat1)
+#Matrix的class雖然是一個獨特的、自己的class
 typeof(Mat1)
+#但真正在儲存他，並非以全新的資料型態，把他當integer在儲存
 ```
 
 ```{r}
 Mat2 <- matrix(
   c("a","b","c","d"), 2, 2
   #利用2*2的方式去儲存
+  
 )
+class(Mat2)
+#類別會是matrix
+typeof(Mat2)
+#儲存的資料型態會是字串
+#matrix(要儲存的東西，縱，橫)
 Mat2
+Mat2[[3]]
+Mat2[2,]
+#[2,] "b"  "d" 
+#[O,](一個中括號+逗號)方形資料獨有的取法
+#方形資料的幻覺
+Mat2[,1]
+#答案應該是ab
+Mat2[c(T,F,F,T)]
+Mat2[c(1,4)]
+#要不要取可以用邏輯向量來取出他
 ```
 
 #test1
@@ -42,27 +67,171 @@ StuList <- list(
   姓名=c("小明","大雄","胖虎","小新","大白"),
   成績=c(80,60,90,70,50)
   )
+#StuList是一個list
 StuList 
 ```
 #dataframe
+dataframe若有一個欄位為character vector會自動轉成factor，不會保留character vector的性質
+※factor的特性有levels
 ```{r}
 StuDF <- data.frame(
   學號=c(172,214,322,425,517),
   姓名=c("小明","大雄","胖虎","小新","大白"),
   成績=c(80,60,90,70,50)
   )
+#本來是list()，現在改成data.frame
+#一開始就不要寫list，換成data.frame()，但就算改寫，list才是R真正再記憶的
+#data frame比較清楚其相對應的關係(資料幻覺)，每個欄位是list裡面的一個元素而已
 StuDF 
 ```
-
+#資料幻覺
+dataframe相對應list
+Matrix相對應atomic vector
 ```{r}
 class(StuDF)
 typeof(StuDF)
 ```
 
 #取出胖虎
+[.]是用來取出一群元素
 ```{r}
-StuDF[[2]][3]
+StuDF[2,]
+StuDF[,2]
+StuDF[[2]]
+StuDF[["姓名"]][[3]]
+#extraction[[]]後面還可已延伸->[[]][[]]
 ```
+
+#dataframe碰到charctor會自動變成factor，就要用as.character改回來
+
+$要用變數名稱延伸萃取(也可以用來取))
+```{r}
+class(StuDF$姓名)
+#[1] "factor"
+StuDF$姓名 <- as.character(StuDF$姓名)
+class(StuDF$姓名)
+```
+#另一種方式，創造dataframe時，就把預設值改掉，叫他不要自動轉為factor
+as.data.frame(StuList,stringsAsFactors = F) -> StuDF4
+```{r}
+class(StuList)
+#list
+StuList
+as.data.frame(StuList) -> StuDF3
+#改以dataframe呈現
+class(StuDF3$姓名)
+#factor
+StuDF3
+as.data.frame(StuList,stringsAsFactors = F) -> StuDF4
+######################################!!!!!!
+class(StuDF4)
+#dataframe
+StuDF4
+class(StuDF4$姓名)
+#character
+```
+
+#Matrix->為atomic vector創造資料幻覺
+[]一個中括號是用來取一群元素
+```{r}
+LETTERS 
+# character vector,R內設元素值為英文字母群
+chosenLETTERS <- LETTERS[1:15]
+chosenLETTERS
+#atomic vector
+matObj1 <- matrix(chosenLETTERS,5,3)
+#atomic vector可用matrix去進行視覺幻化
+#matrix作用的vector是chosenLETTERS,以5*3
+matObj1
+```
+#Matrix和dataframe的取出方式
+都可以用[]
+※[]可以取一個也可以取一群，但是取一個的話最好使用兩個中括號[[]]
+[c("greenbox")]
+[1]
+[c(1)]
+[c(T)]
+
+```{r}
+
+chosenLETTERS[[8]]
+matObj1[8]
+```
+
+matObj1[3,2] 
+matObj1[c(F,F,TRUE,F,F),c(F,TRUE,F)]
+```{r}
+matObj1
+matObj1[3,2] 
+#和matObj1[c(3,2)]是不一樣的
+matObj1[c(3,2)]
+matObj1[c(F,F,TRUE,F,F),c(F,TRUE,F)]
+#第三縱列的第二
+```
+
+######
+row=c(1,5)第一和第五行
+column=c(2,3)第二和第三航
+6,10,11,15
+```{r}
+matObj1[c(1,5),c(2,3)]
+matrix(matObj1[c(F,F,F,F,F,T,F,F,F,T,T,F,F,F,T)],2,2)
+matObj1[c(T,F,F,F,T),c(F,T,T)]
+matObj1[c(T,F,F,F,T),c(2,3)]
+```
+#tolower
+#toupper
+再一個請使用者輸入的情境時，自動將他輸入的東西進行轉化
+常用的轉換
+```{r}
+LETTERS
+chosenLETTERS <- LETTERS[1:8]
+m <- matrix(chosenLETTERS,2,4)
+m
+tolower(m) # 轉成小寫
+m
+toupper(m) # 轉成大寫
+m
+```
+
+```{r}
+library(readr)
+classSurvey <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/classSurvey.csv")
+```
+
+```{r}
+class(classSurvey)
+```
+取出**性別，本學期學分數**
+從data frame視覺角度
+```{r}
+class(classSurvey)
+#as.data.frame(classSurvey[c(4,5)])
+classSurvey[c(4,5)]
+classSurvey[c(1:60),c(4,5)]
+classSurvey[c(1:60),c(F,F,F,T,T,F)]
+classSurvey[,4:5]
+classSurvey[,c(4,5)]
+classSurvey[,c(F,F,F,T,T,F)]
+```
+
+從R的角度（即單純list vector角度）
+```{r}
+# classSurvey[]
+classSurvey[c("性別","本學期學分數")]
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

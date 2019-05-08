@@ -94,9 +94,9 @@ studentRecord
 ### 1.2
 請將"一年級"，"二年級"，"三年級"，"四年級"改成"一"，"二"，"三"，"四"。（hint: 改掉studentRecord[[4]]的元素名稱。）（此題最後一行請輸入studentRecord，老師改題時會看studentRecord的names有沒有正確更改。）
 ```{r ans12}
-
-names(studentRecord)<- c("一")
-names(studentRecord)
+varia <- c("一","二","三","四")
+names(studentRecord[[4]])[c(1,2,3,4)] <- varia
+studentRecord
 ```
 
 
@@ -120,7 +120,7 @@ commitCheck <- fromJSON(commitCheck, simplifyVector = F)
 ### 2.1
 請取出commitCheck第8個元素底下的**commit**元素，再拿出它底下的**committer**元素，再拿出它底下的**date**元素的第一個值，存成commit8Date答案物件（為character class) 。（最後一行最忘了打答案物件）
 ```{r ans21}
-commit8Date<- commitCheck[[8]][["commit"]][["committer"]][["date"]][1]
+commit8Date<- commitCheck[[8]][["commit"]][["committer"]][["date"]][[1]]
 #typeof(commit8Date)
 commit8Date
 ```
@@ -224,9 +224,10 @@ transcriptPartialData
 > 這題會使用到name=value將賦予元素名稱，若name有特別字元時，我們可換成"name"=value的形式書寫，如： x <- list(z=c(1,2),"this is special"=c(T,F,T,T,F))
 
 ```{r ans34}
-dwdw <- transcriptData[[3]]=="經濟學系"
-dw2 <- list(transcriptData[[3]][dwdw])
-dw2
+test2 <- transcriptData[transcriptData$學系 == "經濟學系", ]
+transcriptPartialDataEcon <- test2[c(1,7,8)]
+transcriptPartialDataEcon
+#View(test2)
 
 ```
 
