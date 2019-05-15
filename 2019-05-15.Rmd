@@ -1,0 +1,251 @@
+---
+title: '2019-05-15'
+author: "Ching Hsieh"
+date: "2019年5月15日"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#names
+查詢元素名稱、元素命名
+```{r}
+Vector1 <- letters[1:6]
+Vector1
+
+names(Vector1)
+```
+
+```{r}
+names(Vector1) <- c('名稱1','名稱2','名稱3','名稱4','名稱5','名稱6')
+names(Vector1)
+Vector1
+```
+
+```{r}
+Mat1 <- matrix(
+  c(1:6), 2,3
+)
+Mat1
+names(Mat1) 
+names(Mat1) <- letters[1:6]
+names(Mat1)
+```
+
+#colnames()，rownames()
+針對方型資料的命名方式
+
+分別對方形資料class（即matrix與data frame）的欄（column）及行（row）進行名稱查詢。
+colnames() <-，rownames() <-：可用來命名。
+column(直)
+row(橫)
+```{r}
+colnames(Mat1) <- c("第一直行","第二直行","第三直行")
+colnames(Mat1)
+rownames(Mat1) <- c("第一橫列","第二橫列")
+Mat1
+```
+
+```{r}
+matObj1
+colnames(matObj1) 
+rownames(matObj1)
+colnames(matObj1) <-c('欄位1','欄位2','欄位3')
+colnames(matObj1)
+matObj1
+rownames(matObj1) <- c('行：1','行：2','行：3','行：4','行：5')
+matObj1
+```
+
+改col2,3的名字
+```{r}
+
+```
+
+#7.6 新增/替換元素
+元素提取[.],[[.]],$.也可用來進行元素「值」修改或「新增」。
+
+若.所指定的元素不存在，則為「新增」。
+
+若.所指定的元素存在，則為「修改」。
+```{r}
+a <- c("1","b","TRUE")
+a
+a[[2]] <- "c"
+a
+a[[5]] <- "FALSE"
+#直接跳第五個元素，，第四個元素會自動補NA(沒有這個值)
+a
+```
+
+#練習
+回憶一下，$只有list可以用，atomic vector不可以用
+※$ operator is invalid for atomic vectors
+```{r}
+b <- list(
+  元素1=1,
+  元素2="Hello",
+  元素3=TRUE
+)
+b$"元素3" <- FALSE
+b$元素2 <- "HI"
+b$新成員 <- c(2L,5L,1L)
+b
+```
+
+#atomic vector
+裡面都要放相同元素，裡面不能再放一個atomic vector，可以用names()命名、查詢，可以用[[]]、[]、[["元素名稱"]]
+#list裡面可以放不同元素，裡面還可以再放list，可以用names()命名或查詢，可以用[[]]、[]、[["元素名稱"]]、$(錢後面接的元素名稱要不要加""都可以)
+```{r}
+atomic1 <- c("HA","HA","HA","HA",TRUE,c("HA","HA"))
+length(atomic1)
+atomic1
+typeof(atomic1)
+class(atomic1)
+names(atomic1) <- c("元素1",2,3,4,5,6,7)
+names(atomic1)
+atomic1
+atomic1[["元素1"]]
+atomic1$元素1
+```
+
+List物件比atomic vector多了使用$.提取元素的選擇，
+
+唯.必需是元素名稱。
+
+由於data frame也是list type，所以也可以用$.來提取/新增/修改變數欄位值。
+names(要做動作的資料)[第幾行第幾列]
+※[]會在()的後面
+```{r}
+classSurvey$額外一行 <- c(1:60)
+#由於本來沒有這一欄，寫了以後會自動家在資料庫的後面，成為新的一欄
+classSurvey$學號 <- c(1:60)
+#本來有學號這個欄位，所以會被我改成c(1:60)
+classSurvey$學號
+#提取
+#classSurvey
+```
+#練習1
+```{r}
+library(readr)
+exData3 <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/exData3.csv",
+                    col_types = cols(
+                      匯率 = col_number(),
+                      期間 = col_character()))
+exData3
+```
+#練習2
+
+都轉換成date可互相加減(告訴你天數)
+```{r}
+library(lubridate)
+exData3$期間 <- ymd(exData3$期間)
+class(exData3$期間)
+
+front <- ymd("1997-06-01")
+end <- ymd("1998-12-01")
+
+#front
+#end
+#end-front
+
+isAsiaCrisis <- exData3$期間 >= front & exData3$期間<= end
+#isAsiaCrisis
+time <- exData3$期間[isAsiaCrisis]
+rate <- exData3$匯率[isAsiaCrisis]
+currency <- exData3$幣別[isAsiaCrisis]
+newdata <- as.data.frame(list("期間"=time,"匯率"=rate,"幣別"=currency))
+newdata
+sum(isAsiaCrisis)
+```
+
+#ymd("時間")※記得一定要括號!
+時間無論是date或是datetime都可以"直接"進行加減
+可以利用as.double看他們換算成數字後長什麼樣子
+但加減直接做就好，不用as.double()-as.double()
+```{r}
+front_time <- ymd_hms("2019-05-15 09:02:39")
+as.double(front_time)
+class(front_time)
+end_time <- ymd_hms("2019-02-15 12:08:39")
+as.integer(front_time - end_time)
+```
+
+
+#question1
+```{r}
+class(classSurvey)
+classSurvey[,4:5]
+???rownames(matObj1)[c(4,5)] <- c("Gender","Score")
+???classSurvey[,4:5]
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
