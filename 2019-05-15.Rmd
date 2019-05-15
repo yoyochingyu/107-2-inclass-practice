@@ -119,6 +119,7 @@ List物件比atomic vector多了使用$.提取元素的選擇，
 names(要做動作的資料)[第幾行第幾列]
 ※[]會在()的後面
 ```{r}
+class(classSurvey)
 classSurvey$額外一行 <- c(1:60)
 #由於本來沒有這一欄，寫了以後會自動家在資料庫的後面，成為新的一欄
 classSurvey$學號 <- c(1:60)
@@ -139,6 +140,7 @@ exData3
 #練習2
 
 都轉換成date可互相加減(告訴你天數)
+#解1
 ```{r}
 library(lubridate)
 exData3$期間 <- ymd(exData3$期間)
@@ -161,6 +163,26 @@ newdata
 sum(isAsiaCrisis)
 ```
 
+#解2(看老師)
+要動手的資料[邏輯判斷=TRUE,]
+```{r}
+library(lubridate)
+exData3$期間 <- ymd(exData3$期間)
+class(exData3$期間)
+
+front <- ymd("1997-06-01")
+end <- ymd("1998-12-01")
+
+#front
+#end
+#end-front
+
+isAsiaCrisis <- exData3$期間 >= front & exData3$期間<= end
+newnewData <- exData3[isAsiaCrisis==TRUE,]
+newnewData
+```
+
+
 #ymd("時間")※記得一定要括號!
 時間無論是date或是datetime都可以"直接"進行加減
 可以利用as.double看他們換算成數字後長什麼樣子
@@ -182,10 +204,60 @@ classSurvey[,4:5]
 ???classSurvey[,4:5]
 ```
 
+#練習3
+```{r}
+library(readr)
+transcriptDataFinal <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/transcriptDataFinal.csv")
+```
 
+#解1
+```{r}
+yes <- transcriptDataFinal$學號=="92aS67fee"
+#yes
+transcriptDataFinal <- transcriptDataFinal[yes==TRUE,]
+transcriptDataFinal
+```
 
+#函數
+函數名稱 <- function(input1, input2,...){
 
+函數程序內容
 
+return(output)
+}
+```{r}
+utility_cobb_douglass <- function(x,y,.alpha,.beta){
+  utilValue <- x^.alpha*y^.beta # 程序產生output值
+  return(utilValue) # 傳回output值
+}
+class(utility_cobb_douglass)
+#查詢utility_cobb_douglass物件的class
+utility_cobb_douglass(1,2,0.5,0.8)
+#使用函數
+
+```
+
+#練習4
+供給函數
+左側定義名字時是不用放()的
+```{r}
+supplyfun <- function(a,b,P){
+  Qs <- a + b * P
+  return(Qs)
+}
+class(supplyfun)
+supplyfun(1,2,5)
+```
+
+#練習5
+需求函數
+```{r}
+demand_fun <- function(c,d,P){
+  Qd <- c - d * P
+return(Qd)
+  }
+  
+```
 
 
 
