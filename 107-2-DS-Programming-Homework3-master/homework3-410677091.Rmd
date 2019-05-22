@@ -1,0 +1,214 @@
+---
+title: "homework3"
+date: "2019-04-19"
+output: html_document
+params:
+  studentID: "410677091"
+  studentName: "謝沁妤"
+---
+# 注意事項
+
+存檔與填寫注意事項：
+
+假設你叫王小明，學號41078392。
+
+  1. 存檔時，請用你的學號當延伸檔名。學號為41078392，則請存成homeworkX-41078392.Rmd, X為這次作業號碼。(記得使用：save with enconding, 然後選utf-8)
+
+  2. 本文檔開始的Frontmatter中，studentID（即key）其value目前為"你的學號"，以上面學號為例則必需改成"41078392"；而studentName（key）其value目前為"你的名字"，以上面名字為例則必需改成"王小明"
+  
+> 每次作業滿分10分：收到Google行事曆邀請按Yes(接受)得2分，有寫作業於期限內上傳得3分，依作業準確率決定最後5分得分多寡。
+
+> 前述存檔utf-8格式要求與frontmatter要求缺任何一個則扣1分。
+
+> !!! 不使用作業檔作答（例如：作業1有同學拿自己上課練習檔在後面接上作業檔內容；也有同學用new file產生rmd檔懶得刪除新檔案原有文字而在後面亂貼作業檔內容），其答案全部都會算錯（影響改題程式判讀）。
+
+> !!! 「有寫作業於期限內上傳得3分」指得是上傳自己寫的作業檔，上傳空白作業檔或其他不相關檔案用來騙取3分是不可取的行為，抓到該次作業算0分，抓到2次則整學期作業均為0分。
+
+# 題目
+
+請先執以下code chunk, 引入所需packages. 
+```{r}
+library(lubridate); library(stringr); library(purrr); library(readr)
+```
+
+## 作答需知
+每一題會有設好的ans chunk，它會有ansxx標籤（如下的ans99），請將你的程式寫在裡面。每一題都需要你把答案存在指定的物件，並在「**最後一行**」打物件名稱。以下例，若答案是`2+3`並要你存在答案物件test裡，那你的程式如下：
+```{r}
+test <- 2+3 # 答案存在指定test物件
+test # 最後一行打指定物件名稱
+```
+
+## 1 上櫃公司財報
+請讀入以下資料：
+```{r data1}
+library(readr)
+finStatement <- read_csv("http://mopsfin.twse.com.tw/opendata/t187ap06_O_ci.csv")
+```
+
+### 1.1 營業利益
+變數**營業利益（損失）**是公司本業的利益（若為正值）或損失（若為負值）。請找出有營業損失的公司名稱，存成character class的答案物件loss1Companies。
+```{r ans11}
+#typeof(finStatement)
+logic1 <- finStatement[[16]] < 0
+#sum(logic1)
+loss1Companies <- finStatement[[5]][logic1]
+#length(loss1Companies)
+loss1Companies
+#class(loss1Companies)
+# loss1Companies
+```
+
+### 1.2 每股盈餘
+請找出每股盈餘為負值的公司名稱，存成character class的答案物件loss2Companies。
+```{r ans12}
+logic2 <- finStatement[[33]]<0
+#sum(logic2)
+loss2Companies <- finStatement[[5]][logic2]
+#length(loss2Companies)
+#class(loss2Companies)
+loss2Companies
+# loss2Companies
+```
+
+### 1.3 單一條件成立
+
+找出
+
+  * 有營業利益卻出現每股盈餘損失；或
+  
+  * 有營業損失卻出現每股盈餘獲利
+  
+的公司名稱，存成character class的答案物件only1LossCompanies。
+
+```{r ans13}
+logic4 <- finStatement[[16]] > 0  & logic2
+logic5 <- logic1 & finStatement[[33]]>0
+logic6 <- logic4 | logic5
+only1LossCompanies <- finStatement[[5]][logic6]
+only1LossCompanies
+length(only1LossCompanies)
+# only1LossCompanies
+```
+
+
+### 1.4 子樣本
+本題物件為data frame class，使用`[.R,.C]`選出符合上題條件的子樣本，存成data frame class的答案物件subsample。
+```{r ans14}
+
+subsample <- finStatement[logic6==TRUE,]
+#length(subsample$公司名稱)
+#class(subsample)
+subsample
+# subsample
+```
+
+## 2 展覽資訊
+
+執行以下程序取得來自[政府資料開放平台](https://data.gov.tw/dataset/6012)之台灣展覽資訊：
+```{r data2}
+library(httr)
+exhibitionList <- content(GET("https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6"))
+```
+exhibitionList裡每個元素是一個展覽活動，其內容可使用`str()`來查看。以下是第一個活動的內容：
+```{r}
+str(exhibitionList[[1]])
+```
+
+### 2.1 檢查活動數目
+
+請使用`length()`檢查exhibitionList裡的活動數目，並把數值存在答案物件numExhibitions。
+```{r ans21}
+numExhibitions <- length(exhibitionList)
+numExhibitions
+# numExhibitions
+```
+
+### 2.2 創建活動data frame
+
+在執行前述`str(exhibitionList[[1]])`時，會看展覽1的主要資訊。請建立一個data frame class答案物件df_oneShow：
+
+  * 它只有「七」元素，分別來自於`exhibitionList[[1]]`的title及其showInfo底下的time, location, locationName, price, endTime，和sourceWebName，
+  
+  * 各元素請使用來源元素相同名稱命名，故`names(df_oneShow)`會有title, time, location, locationName, price, endTime, 及sourceWebName名稱。
+  
+  * 建立data frame請設定stringsAsFactors=F。
+
+
+```{r ans22}
+#class(exhibitionList)
+#names(exhibitionList[[1]])[[5]]
+showInfo1 <- exhibitionList[[1]]$showInfo
+#showInfo1
+#exhibitionList[[1]]
+#list1 <- exhibitionList[[1]]$title
+#list2 <- showInfo1[c(1,2,3,5,8)]
+#list3 <- exhibitionList[[1]]$sourceWebName
+#showInfo1[[1]]
+listforall <- list(exhibitionList[[1]]$title,showInfo1[[1]][[1]],showInfo1[[1]][[2]],showInfo1[[1]][[3]],showInfo1[[1]][[5]],showInfo1[[1]][[8]],exhibitionList[[1]]$sourceWebName)
+names(listforall) <- c("title","time","location","locationName","price","endTime","sourceWebName")
+listforall
+df_oneShow  <- as.data.frame(listforall,stringsAsFactors = FALSE)
+#class(df_oneShow$title)
+df_oneShow
+# df_oneShow
+```
+
+### 2.3 活動創立函數
+在前一題中，若我們把程序中的`exhibitionList[[1]]`想成input，而`df_oneShow`是我們要的output，則可以產生function class的答案物件dataframe_show_info:
+```
+dataframe_show_info <- function(exhibitionInput){
+
+將上一題的步驟貼過來，但遇到有出現exhibitionList[[1]]的地方換成exhibitionInput
+
+return(df_oneShow)
+}
+```
+`dataframe_show_info()`可用來查詢任何一個展覽訊息，如`dataframe_show_info(exhibitionList[[5]])`會output一個代表第5個展覽的data frame格式訊息。本題最後一行請打`dataframe_show_info`不要有小刮號`()`。
+
+```{r ans23}
+dataframe_show_info <- function(exhibitionInput){
+
+showInfo2 <- exhibitionInput$showInfo
+listforall <- list(exhibitionInput$title,showInfo2[[1]][[1]],showInfo2[[1]][[2]],showInfo2[[1]][[3]],showInfo2[[1]][[5]],showInfo2[[1]][[8]],exhibitionInput$sourceWebName)
+names(listforall) <- c("title","time","location","locationName","price","endTime","sourceWebName")
+#listforall
+df_oneShow  <- as.data.frame(listforall,stringsAsFactors = FALSE)
+#class(df_oneShow$title)
+df_oneShow
+return(df_oneShow)
+}
+#dataframe_show_info(exhibitionList[[5]])
+dataframe_show_info
+#  dataframe_show_info
+```
+
+### 2.4 活動資訊來源種類
+
+purrr套件裡的`map_dfr(物件,data_frame產生函數名稱)`可以把`物件`的每一個元素，丟進`data_frame產生函數`，得到每一個對應的data frame output後，以逐列（by row）堆疊方式合成所有輸出的data frame。以本題的例子，執行以下程式可以得到所有活動的data frame清單df_allShows。(你必需完成前一題，以下程序才會有作用。)
+```{r}
+library(purrr)
+map_dfr(exhibitionList,dataframe_show_info) -> df_allShows
+```
+
+請將df_allShows的sourceWebName元素轉成factor class，最後一行寫`levels(df_allShows$sourceWebName)`顯示活動資訊來源所有類別。
+
+```{r ans24}
+
+df_allShows$sourceWebName <- as.factor(df_allShows$sourceWebName)
+levels(df_allShows$sourceWebName)
+# levels(df_allShows$sourceWebName)
+```
+
+### 2.5 計算單一來源
+來自"全國藝文活動資訊系統"的展覽有幾筆，答案存在numeric class物件totalCount。(hint: 將logical vector裡的TRUE加總)
+
+```{r ans25}
+totalCount <- sum(df_allShows$sourceWebName == "全國藝文活動資訊系統")
+totalCount
+# totalCount
+```
+
+
+> 答完後上傳前，請確認每個code chunk的最後一行皆為該題的答案物件（除非題目有另外規定），且frontmatter的studentID及studentName皆有填寫。
+
+> 注意： 沒有存檔成utf-8格式或frontmatter資訊沒填寫會扣1分。
