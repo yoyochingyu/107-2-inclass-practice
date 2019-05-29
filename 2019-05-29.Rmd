@@ -32,10 +32,96 @@ GPA <- sum(subSample$學期成績*subSample$學分數)/
 GPA
 ```
 
+#GPA改寫成function
+```{r}
+get_gpa <- function(input1){
+  studentID <- input1
+  #我覺得最好input一進來就把他指定給另一個變數，底下都用那個變數操作，就不用頻繁的修改程式
+  transcriptDataFinal$學號==studentID -> logiChosenStudent
+  subSample <- transcriptDataFinal[logiChosenStudent==TRUE,]
+  GPA <- sum(subSample$學期成績*subSample$學分數)/
+  sum(subSample$學分數) 
+return(GPA)
+  #return要在{程序}裡面
+}
+
+get_gpa("92aS67fee")
+get_gpa("9efW9aea5")
+get_gpa(studentID)
+```
+
+#str_pad進行填充
+```{r}
+library(stringr)
+sample(99:103,15,replace = T)-> yy
+yy
+#取15個，範疇為99到103，可重複
+sample(1:12,15,replace=T)-> mm
+#取15個，範疇為1到12，可重複
+#month要跟year取的數量一致
+mm
+str_c("民國",str_pad(yy,3,"left","0"),"年",mm,"月") -> twDates
+twDates
+#digit3裡面包括yy，假如yy取出為3digit則不用補0，假如yy取出為2digit則在左側填充一個0
+```
+
+#str_extract
+> val <- c("abca4", 123, "cba2")
+
+# 返回匹配的数字
+> str_extract(val, "\\d")
+[1] "4" "1" "2"
+
+# 返回匹配的字符
+> str_extract(val, "[a-z]+")
+[1] "abca" NA     "cba" 
 
 
+> val <- c("abca4", 123, "cba2")
+> str_extract_all(val, "\\d")
+[[1]]
+[1] "4"
+
+[[2]]
+[1] "1" "2" "3"
+
+[[3]]
+[1] "2"
+
+> str_extract_all(val, "[a-z]+")
+[[1]]
+[1] "abca"
+
+[[2]]
+character(0)
+
+[[3]]
+[1] "cba"
 
 
+#???????????????
+"(?<=(民國))[:digit:]+"
+"[:digit:]+(?=月)"
+```{r}
+library(stringr); library(lubridate)
+yyyy<-as.integer(str_extract(twDates,"(?<=(民國))[:digit:]+"))+1911
+mm<-str_extract(twDates,"[:digit:]+(?=月)")
+yyyymmdd <- ymd(str_c(yyyy,mm,"01",sep="-"))
+yyyymmdd
+```
+
+```{r}
+date_convert_twYM <- function(input2){
+  
+  variac_func <- input2
+  
+    yyyy<-as.integer(str_extract(variac_func,"(?<=(民國))[:digit:]+"))+1911
+mm<-str_extract(variac_func,"[:digit:]+(?=月)")
+yyyymmdd <- ymd(str_c(yyyy,mm,"01",sep="-"))
+  return(yyyymmdd)
+}
+date_convert_twYM(twDates)
+```
 
 
 
