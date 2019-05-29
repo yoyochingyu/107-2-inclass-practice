@@ -1,0 +1,97 @@
+---
+title: "2019/05/29_chapter8"
+author: "Ching Hsieh"
+date: "2019年5月29日"
+output: html_document
+---
+
+```{r}
+utility_cobb_douglass <- function(x,y,.alpha,.beta){
+  utilValue <- x^.alpha*y^.beta # 程序產生output值
+  return(utilValue) # 傳回output值
+}
+class(utility_cobb_douglass)
+utility_cobb_douglass(1,2,0.5,0.8)
+```
+
+```{r}
+library(readr)
+transcriptDataFinal <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/transcriptDataFinal.csv")
+```
+
+```{r}
+studentID <-"92aS67fee" 
+transcriptDataFinal$學號==studentID -> logiChosenStudent
+
+#subSample <- transcriptDataFinal[logiChosenStudent,]
+subSample <- transcriptDataFinal[logiChosenStudent==TRUE,]
+#這兩行一樣意思，把logic為TRUE的整組資料抓出來，形成新子集
+
+GPA <- sum(subSample$學期成績*subSample$學分數)/
+  sum(subSample$學分數) 
+GPA
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
