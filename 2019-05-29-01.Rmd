@@ -1,0 +1,310 @@
+---
+title: '2019-05-29'
+author: "Ching Hsieh"
+date: "2019年6月2日"
+output: html_document
+---
+
+#沒有return和input的函數，
+可以不要retun，而是去執行某個程序(此題為print)
+
+
+一班的function會長這樣：
+function_try <- function(y){
+output=y
+return(output)
+}
+function_try(5)
+
+(括號)內會有參數(所以呼叫函數時可以導入資料進參數那邊)，{大括號}最後return output直
+```{r}
+currentDateTime <- Sys.time()
+class(currentDateTime)
+currentDateTime
+
+library(lubridate)
+now2 <- function(){
+  currentDateTime <- Sys.time()
+  #Sys.time引入系統時間，會呈現posixct(datetime)形式
+  hh<-hour(currentDateTime)
+  mm<-minute(currentDateTime)
+  cat("現在是",hh,"點",mm,"分")
+  #cat就是print
+ #  It converts its arguments to character vectors, concatenates them to a single character vector
+  #把參數轉變成character，且只有一個
+}
+now2() 
+ch <- now2()
+ch
+
+#假如這個函數沒有定義return，你還硬要儲存，是部會儲存東西出來的(null)，是部會儲存出任何值ㄉ
+```
+
+#練習
+browseURL()函數可以輸入網址後自動開啟瀏覽器連到該網頁
+```{r}
+
+textbookURL <- function()
+{
+  browseURL("https://www.ntpu.edu.tw")
+}
+textbookURL()
+```
+
+
+##???skip
+#multiple output
+#return只能回傳一個return值
+若想return多個值，可以讓她return(list)
+#??dataframe應該也可以?
+```{r}
+gpa_fun <- function(studentID){
+  transcriptDataFinal$學號==studentID -> logiChosenStudent
+  
+  subSample <- transcriptDataFinal[logiChosenStudent,]
+  
+  sum(subSample$學期成績*subSample$學分數)/
+    sum(subSample$學分數) -> GPA
+  return(GPA)
+}
+```
+
+```{r}
+demand_supply_fun <- function(P,a,b,c,d){
+  Qs <- a+b*P
+  Qd <- c-d*P
+  return(list(供給量=Qs,需求量=Qd,超額供給量=Qs-Qd))
+}
+demand_supply_fun(1,0,1,10,2)
+```
+
+#8.2依條件執行
+if(邏輯條件){
+  執行這些程序
+  }
+else{
+不成立時執行這個
+}
+
+
+
+
+readline()讀取使用者輸入的文字0
+prompt->提示使用者
+```{r}
+a <- readline(prompt = "請輸入一個數字： ")
+#會在下面的console叫你輸入數字
+#若為正，則不會執行，若為負，程式會執行負，並在下面print出來
+if(a < 0) {
+  print("a為負值")
+}
+```
+
+```{r}
+a <-  readline(prompt = "請輸入一個數字： ")
+if(a < 0) {
+  print("a為負值")
+} else {
+  print("a不為負值")
+}
+```
+
+```{r}
+a<-0
+b<-1
+supply_fun <- function(P,a,b){
+  Qs <- a+b*P
+  return(Qs)
+}
+supply_fun(P=-1,0,1)
+```
+
+```{r}
+supply_fun2 <- function(P,a,b){
+  Qs <- a+b*P
+  if(P>=0) {
+    return(Qs)
+  }
+}
+#今天假如值為負的，就不執行，不return
+supply_fun2(P=-1,0,1)
+supply_fun2(P=2,0,1)
+```
+
+```{r}
+supply_fun3 <- function(P,a,b){
+  Qs <- a+b*P
+  if(P < 0) {
+    message("P不能為負值") # 在螢幕出現的「錯誤」提示，沒有輸出任何值
+  } else {
+    return(Qs)
+  }
+}
+supply_fun3(P=-1,0,1)->hahaha
+hahaha
+supply_fun3(P=2,0,1)
+```
+
+#message用在錯誤的狀況下，print用來單純訊息輸出(跟Cat()差不多)
+
+```{r}
+gpa_fun <- function(studentID){
+ 
+  
+  if(transcriptDataFinal$學號==studentID){
+     transcriptDataFinal$學號==studentID -> logiChosenStudent
+    subSample <- transcriptDataFinal[logiChosenStudent,]
+  
+  sum(subSample$學期成績*subSample$學分數)/
+    sum(subSample$學分數) -> GPA
+  return(GPA)}
+  else{message("Student not found!")}
+}
+gpa_fun("92aS67fee")
+gpa_fun("aa829838s")
+```
+
+#if.else.else if
+if(){
+
+}
+else if(){
+
+}
+else
+
+##????wrong
+```{r}
+a <- readline(prompt = "請輸入一個數字： ")
+if(a == 1) {
+  print("你輸入了1")
+} else if(a == 2) {
+  print("你輸入了2")
+} else if(a == 3) {
+  print("你輸入了3")
+} else {
+  print("你輸入了其他數字")
+}
+```
+
+#練習
+```{r}
+fizzbuzz <- function(input3){
+  if(input3 %% 3==0 &input3 %% 5!=0){return("fizz")}
+  else if(input3 %% 5==0 & input3 %% 3!=0){return("buzz")}
+  else if(input3 %% 3==0 & input3 %% 5==0){return("fizzbuzz")}
+  else{return(input3)}
+  
+}
+fizzbuzz(7)
+```
+
+#邏輯判斷的結果大於2個，還是會執行，但只會用第一個邏輯判斷去決定true or false
+以此題為例，因為第一個邏輯判斷為false，所以就不執行了 
+```{r}
+a <- c(1,3,5)
+a>2 # 此邏輯條件產生三個值
+if(a>2) {
+  print("a is bigger than 2")
+}
+```
+
+#第一個為true，會執行第一個的結果
+```{r}
+a <- c(5,1,1)
+a>2 # 此邏輯條件產生三個值
+if(a>2) {
+  print("a is bigger than 2")
+}
+```
+
+```{r}
+a <- c(5,1,1)
+a>2
+all(a>2)
+#all要全部的邏輯判斷都成立才會顯示TRUE
+```
+
+```{r}
+a>2
+any(a>2)
+#其中一個成立any就會成立顯示TRUE
+```
+
+```{r}
+a <- c(5,1,1)
+a>2 # 此邏輯條件產生三個值
+if(all(a>2)) {
+  print("a is bigger than 2")
+}
+#不會執行，因為all的結果為false
+```
+
+```{r}
+a <- c(5,1,1)
+a>2 # 此邏輯條件產生三個值
+if(any(a>2)) {
+  print("a is bigger than 2")
+}
+#會執行，因為any的結果為true
+```
+
+#Environment
+```{r}
+a <- 3
+
+testfun <- function(x){
+  y <- a/4
+  output <- x*y
+  return(output)
+}
+#寫完定義完函數，這個函數就會存活在global encironment裡面ㄌ
+
+
+testfun(2)
+#call呼叫一個函數
+不會是在global #environment(母)執行，而是在下面創造一個子環境(執行環境)(execution evronment)(子)
+#只有呼叫時，execution environment才會產生，做完output，return回global裡面，執行環境隨即刪除
+
+a <- 4
+testfun(2)
+```
+
+
+#把資料庫也當作input引入，確保引入的資料沒有被改變過
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

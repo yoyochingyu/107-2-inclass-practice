@@ -1,7 +1,7 @@
 ---
-title: "2019/05/29_chapter8"
+title: "2019/05/22_chapter8"
 author: "Ching Hsieh"
-date: "2019年5月29日"
+date: "2019年5月22日"
 output: html_document
 ---
 
@@ -65,7 +65,8 @@ twDates
 #digit3裡面包括yy，假如yy取出為3digit則不用補0，假如yy取出為2digit則在左側填充一個0
 ```
 
-#str_extract
+#str_extract取出
+str_extract(資料庫,取出的條件)
 > val <- c("abca4", 123, "cba2")
 
 # 返回匹配的数字
@@ -73,9 +74,9 @@ twDates
 [1] "4" "1" "2"
 
 # 返回匹配的字符
+###?和extractall的差別
 > str_extract(val, "[a-z]+")
 [1] "abca" NA     "cba" 
-
 
 > val <- c("abca4", 123, "cba2")
 > str_extract_all(val, "\\d")
@@ -99,9 +100,15 @@ character(0)
 [1] "cba"
 
 
-#???????????????
+#str_extract
+record expression
 "(?<=(民國))[:digit:]+"
+->幫我取出那些前面是"民國"的數字們
+(?<=(民國))->前面都是民國
+digit>指的是數字
++號的位置一定要在那邊(沒有+號會只取出一個數字))
 "[:digit:]+(?=月)"
+取出後面是月的數字們
 ```{r}
 library(stringr); library(lubridate)
 yyyy<-as.integer(str_extract(twDates,"(?<=(民國))[:digit:]+"))+1911
@@ -123,6 +130,52 @@ yyyymmdd <- ymd(str_c(yyyy,mm,"01",sep="-"))
 date_convert_twYM(twDates)
 ```
 
+```{r}
+date_convert_twYM <- function(input2,fix_input=01){
+  
+  variac_func <- input2
+  
+    yyyy<-as.integer(str_extract(variac_func,"(?<=(民國))[:digit:]+"))+1911
+mm<-str_extract(variac_func,"[:digit:]+(?=月)")
+yyyymmdd <- ymd(str_c(yyyy,mm,fix_input,sep="-"))
+  return(yyyymmdd)
+}
+date_convert_twYM(twDates)
+date_convert_twYM(twDates,05)
+```
+
+#每次都隨機產新年月
+#固定每月1,5號
+```{r}
+sample(99:103,15,replace = T)-> yy
+sample(1:12,15,replace=T)-> mm
+str_c("民國",str_pad(yy,3,"left","0"),"年",mm,"月") -> twDates_New
+date_convert_twYM(twDates_New)
+date_convert_twYM(twDates_New,07)
+```
+
+#function也可以不用{}用內縮他就懂，直到不在內縮代表function結束
+建議{}有一個，舊內縮衣次
+
+
+
+
+
+
+
+
+#練習
+ymd_hms_tzChange
+```{r}
+library(lubridate)
+ymd_hms_tzChange <- function(input,fromTzone,toTzone){
+  
+  tzchange <- with_tz(ymd_hms(input,tz=fromTzone),tzone=toTzone)
+  return(tzchange)
+}
+ymd_hms_tzChange("1973-02-21 12:05:22","America/New_York","Asia/Taipei")
+class(ymd_hms_tzChange("1973-02-21 12:05:22","America/New_York","Asia/Taipei"))
+```
 
 
 

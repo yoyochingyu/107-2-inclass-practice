@@ -1,0 +1,223 @@
+---
+title: "midterm2"
+author: "Ching Hsieh"
+date: "2019年6月12日"
+output: html_document
+---
+寫一個函數str_smallClosest，使用方法為str_smallClosest(chrNumber,criticalNumber)，其中：
+
+chrNumber: 為character class的數字文字向量，如c(“10”,“25”,“11”)
+
+criticalNumber: 為數字。
+
+str_smallClosest(chrNumber,criticalNumber)會找出chrNumber字串數字中「小於等於」criticalNumber中的「最大值」且回傳值依然是character，例如：str_smallClosest(c("10","25","11"),12)會回傳字串“11”。本題答案物件是str_smallClosest。(hint: max()會找出數字向量中的最大值)
+```{r}
+try1 <- c("10","18","15")
+logic1 <- try1 <= 17
+max(try1[logic1])
+typeof(as.character(max(try1[logic1])))
+
+str_smallClosest <- function(chrNumber,criticalNumber){
+  try1 <- chrNumber
+  logic1 <- try1 <= criticalNumber
+  ans <- as.character(max(try1[logic1]))
+  return(ans)
+  }
+
+str_smallClosest(c("10","17","12","26"),16)
+
+str_smallClosest
+# str_smallClosest
+```
+
+3.1 建立資訊清單
+以下是經濟學系不同入學年學生所適用的選課準則文件網址：
+
+101學年：http://www.econ.ntpu.edu.tw/econ/files/Way/2016072195021.doc
+
+104學年：http://www.econ.ntpu.edu.tw/econ/files/Way/2016072195041.doc
+
+105學年：http://www.econ.ntpu.edu.tw/econ/files/Way/20170516144353.doc
+
+107學年：http://www.econ.ntpu.edu.tw/econ/files/Way/20180518121643.pdf
+
+請建立一個list class的答案物件EconCourseSelectionInfo，其中EconCourseSelectionInfo[[“104”]]$url會得到“http://www.econ.ntpu.edu.tw/econ/files/Way/2016072195041.doc”; 而“104”若換成其他三個學年任一個，所得到的url訊息也會對應改變。本題答案物件是EconCourseSelectionInfo。
+```{r}
+web101 <- "http://www.econ.ntpu.edu.tw/econ/files/Way/2016072195021.doc"
+web104 <- "http://www.econ.ntpu.edu.tw/econ/files/Way/2016072195041.doc"
+web105 <- "http://www.econ.ntpu.edu.tw/econ/files/Way/20170516144353.doc"
+web107 <-"http://www.econ.ntpu.edu.tw/econ/files/Way/20180518121643.pdf"
+
+EconCourseSelectionInfo <- list("101"=list(url=web101),"104"=list(url=web104),"105"=list(url=web105),"107"=list(url=web107))
+
+EconCourseSelectionInfo[["104"]]$url
+
+EconCourseSelectionInfo
+# EconCourseSelectionInfo
+```
+
+3.2 條件執行
+每屆入學新生所適用的選課準則是以「學生入學年前（含入學年）」中最新的文件為主，如：106學年入學者，在他之前有101，104，及105三份文件，105是當中最新的，故他們適用105學年文件。
+
+請寫一個函數search_courseRules，使用方法為search_courseRules(entranceYear,EconCourseSelectionInfo):
+
+entranceYear: 數值，使用者輸入的入學年，可以是任何的數字。
+
+EconCourseSelectionInfo: list class, 代表經濟系的課程資訊，且依前一題結構架構。
+
+此函數會去EconCourseSelectionInfo中找到對應的url之後return output給使用者。若沒有對應答案，則回傳“很抱歉沒有您入學年的資訊，請打系辦電話”。\
+```{r}
+search_courseRules <- function(entranceYear,EconCourseSelectionInfo){
+   numofyear <- c(101,104,105,107)
+   
+  if(numofyear <= entranceYear){
+     logic2 <- numofyear <= entranceYear
+  ans2f <- as.character(max(numofyear[logic2]))
+  urlforuser <-EconCourseSelectionInfo[[ans2f]]$url
+  
+  return(list(urlforuser,logic2))
+  }
+  else{return("很抱歉沒有您入學年的資訊，請打系辦電話")
+    }
+}
+search_courseRules(102,EconCourseSelectionInfo)
+
+search_courseRules
+# search_courseRules
+```
+
+
+```{r}
+a <- c(3,1,5)
+a>2 # 此邏輯條件產生三個值
+if(a>2) {
+  print("a大於2")
+}
+```
+
+```{r}
+load(url("https://github.com/tpemartin/github-data/blob/master/sampledTranscriptData.Rda?raw=true"))
+c('學號','學期成績','學分數','學年','學期','必選修類別（必／選／通）','系級','科目名稱','年級','學屆') ->
+  names(sampledTranscriptData)
+```
+sampledTranscriptData裡每個元素底下的值都是一位同學在一門課的修課狀況，資料變數（即這裡元素名稱）。
+
+學號是一入學就決定，不管後來有沒有轉系，其中：
+
+學號第5-6位數字為「系碼」
+經濟系的系碼為“73”，外系轉入經濟系的學生其系碼不會是“73”，但其「系級」變數值會含有“經濟學系”字樣。（Hint: stringr裡的str_detect(x,"test")可用來偵測x字串向量中，那些元素字串值中有“test”字眼出現，有的話回傳TRUE，反之為FALSE）
+
+請找出外系轉入經濟系的學生學號，並存成changeMajorStudent答案物件。(由於資料一筆為一科成績，所以學號會重覆出現，要存入答案物件前請用unique()去除重覆學號)
+```{r}
+library(stringr)
+#class(sampledTranscriptData$系級)
+logic3 <- str_detect(sampledTranscriptData$系級,"經濟學系")
+#logic3
+ numofstudent<- sampledTranscriptData$學號[logic3]
+logic4 <- str_detect(numofstudent,"73")
+sum(!logic4)
+changeMajorStudent <- unique(numofstudent[!logic4])
+
+changeMajorStudent
+# changeMajorStudent
+```
+
+```{r}
+library(stringr)
+stunum <- str_sub(sampledTranscriptData$學號,start=5,end=6)
+logic3 <- str_detect(sampledTranscriptData$系級,"經濟學系")
+logy6 <- stunum!=73 & logic3
+sum(logy6)
+changers <- sampledTranscriptData$學號[logy6]
+#changers
+changeMajorStudent2 <- unique(changers)
+changeMajorStudent2
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

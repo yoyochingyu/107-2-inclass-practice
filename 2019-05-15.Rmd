@@ -24,6 +24,8 @@ names(Vector1)
 Vector1
 ```
 
+
+#matrix(atomic vector,row,column)
 ```{r}
 Mat1 <- matrix(
   c(1:6), 2,3
@@ -54,6 +56,7 @@ colnames(matObj1)
 rownames(matObj1)
 colnames(matObj1) <-c('欄位1','欄位2','欄位3')
 colnames(matObj1)
+#查詢他的name
 matObj1
 rownames(matObj1) <- c('行：1','行：2','行：3','行：4','行：5')
 matObj1
@@ -83,6 +86,7 @@ a
 #練習
 回憶一下，$只有list可以用，atomic vector不可以用
 ※$ operator is invalid for atomic vectors
+命名(元素1.2.3)可以有""，也可以沒有""
 ```{r}
 b <- list(
   元素1=1,
@@ -100,6 +104,8 @@ b
 #list裡面可以放不同元素，裡面還可以再放list，可以用names()命名或查詢，可以用[[]]、[]、[["元素名稱"]]、$(錢後面接的元素名稱要不要加""都可以)
 ```{r}
 atomic1 <- c("HA","HA","HA","HA",TRUE,c("HA","HA"))
+#TRUE也會被視為character
+#c("HA","HA")會被視為"HA","HA"兩個，所以length=7
 length(atomic1)
 atomic1
 typeof(atomic1)

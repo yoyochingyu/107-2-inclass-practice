@@ -1,0 +1,161 @@
+---
+title: "2019-06-04-practice"
+author: "Ching Hsieh"
+date: "2019年6月4日"
+output: html_document
+---
+#引入資料
+有一個清單(list)叫做StuList
+list的使用方式
+```{r}
+
+test_list <- list("ob1"=c(1,2,3,4),"ob2"=T,"ob3"=3L,"ob4"="ch")
+test_list
+test_list2 <- list(c(1,2,3,4),T,3L,"ch",list(5,6,"L",T))
+test_list2
+```
+
+```{r}
+StuDF <- data.frame(
+  學號=c(172,214,322,425,517),
+  姓名=c("小明","大雄","胖虎","小新","大白"),
+  成績=c(80,60,90,70,50)
+  )
+typeof(StuDF)
+class(StuDF)
+```
+
+
+```{r}
+StuList <- list(
+  學號=c(172,214,322,425,517),
+  姓名=c("小明","大雄","胖虎","小新","大白"),
+  成績=c(80,60,90,70,50)
+  )
+StuList 
+```
+
+
+
+
+#letters
+letters預設為A-Z的character vector
+classs為character，由於是a-z所以是vector(向量)
+letters(小寫)為"a""b""c"-"z"(小寫的a-z character vector)
+LETTERS(大寫)為"A""B""C"-"Z"(大寫的A-Z character vector)
+```{r}
+a <- letters
+
+a
+b <- letters[1:6]
+#我要a-z這個character vecctor裡面第一到六個
+b
+LETTERS
+```
+
+```{r}
+LETTERS 
+chosenLETTERS <- LETTERS[1:15]
+chosenLETTERS
+matObj1 <- matrix(chosenLETTERS,5,3)
+matObj1
+```
+
+```{r}
+chosenLETTERS[8]
+matObj1[8]
+chosenLETTERS[[8]]
+matObj1[[8]]
+matObj1[c(7,8)]
+matObj1[c(2,3)]
+#b和C
+matObj1[2,3]
+#第二行第三橫列
+
+```
+
+```{r}
+matObj1
+matObj1[3,2] 
+matObj1[c(F,F,TRUE,F,F),c(F,TRUE,F)]
+matObj1[c(1,5),c(2,3)]
+matObj1[,3]
+cbind(matObj1,letters[1:5])
+```
+
+```{r}
+StuDF
+StuDF[c("姓名","成績")] 
+StuDF[1:5,c("姓名","成績")] 
+#橫列為姓名、成績的
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
